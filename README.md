@@ -142,5 +142,5 @@
 - HTML/CSS: Frontend structure and styling.
 - SQLite: Database used for storing tasks and user data.
 
-### [GitHub Repository](GitHub Repository Link)
+### [GitHub Repository](https://github.com/Karthikpasupuleti11/Task_Tracker.git)
     
