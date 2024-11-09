@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>Welcome to Your Task Tracker</h2>
+    
+    <!-- Task Form to Add Tasks -->
+    <form action="/add_task" method="POST">
+        <label for="title">Task Title:</label>
+        <input type="text" name="title" required><br><br>
+
+        <label for="description">Description:</label>
+        <textarea name="description" required></textarea><br><br>
+
+        <label for="due_date">Due Date:</label>
+        <input type="date" name="due_date" required><br><br>
+
+        <label for="priority">Priority:</label>
+        <select name="priority" required>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select><br><br>
+
+        <button type="submit">Add Task</button>
+    </form>
+
+    <h3>Your Tasks</h3>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <strong>{{ task.title }}</strong><br>
+                Description: {{ task.description }}<br>
+                Due Date: {{ task.due_date }}<br>
+                Priority: {{ task.priority }}<br>
+                Status: {{ 'Completed' if task.status else 'Incomplete' }}<br>
+                <form action="/update_task/{{ task.id }}" method="POST">
+                    <button type="submit">{{ 'Mark Incomplete' if task.status else 'Mark Complete' }}</button>
+                </form>
+                <form action="/delete_task/{{ task.id }}" method="POST">
+                    <button type="submit">Delete Task</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if pagination.has_prev %}
+            <a href="{{ url_for('home', page=pagination.prev_num) }}">Previous</a>
+        {% endif %}
+        {% if pagination.has_next %}
+            <a href="{{ url_for('home', page=pagination.next_num) }}">Next</a>
+        {% endif %}
+    </div>
+
+    <a href="/logout">Logout</a>
+</body>
+</html>
